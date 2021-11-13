@@ -8,6 +8,9 @@ const prefix = "BOT_PREFIX"
 /**
  * هون حط اي دي تبعك عشان انت الوحدي الي تقدر تحط تشانيل زاجل للداتابيس
  */
+/**
+ صح ما في هلب
+*/
 const zajil_controler_id = '878280415327158292'
 //quick.db@7.1.3
 const quick = require("quick.db");
