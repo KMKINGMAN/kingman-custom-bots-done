@@ -114,6 +114,24 @@ client.on("message", async(kmsg)=> {
                 return kmsg.channel.send(new MessageEmbed({description:`انت اعزب [غير متزوج]`}))
             }
              break;    
+        case 'متزوجون':
+            let data_mutazawjoon = await quick.fetch(`zawaj.${kmsg.guild.id}`);
+            if(!data_mutazawjoon){
+                return kmsg.channel.send("**ليس هناك متزوجون**")
+            }
+            let new_data = Object.entries(data_mutazawjoon)
+            if(!new_data && new_data.length == 0){
+                return kmsg.channel.send("**ليس هناك متزوجون**")
+            }
+            let finaly_data = new_data.map(data => data[1]).filter(data => data.taken === true)
+            if(finaly_data.length === 0){
+                return kmsg.channel.send("**ليس هناك متزوجون**")
+            }
+            kmsg.channel.send(new MessageEmbed({
+                title: `متزوجون السيرفر`,
+                description: `<@${finaly_data.map(data=> data.with).join(">\n<@")}>`
+            }))
+             break;  
         default:
             break;
     }
