@@ -26,13 +26,13 @@ client.on("message", async(kmsg)=> {
             if(mention.id == kmsg.author.id){
                 return kmsg.channel.send(`**لا يمكنك ان ترتبط بنفسك**`)
             }
-            let status1 = await quick.fetch(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`);
-            let status2 = await quick.fetch(`${kmsg.guild.id}.${mention.id}_zawaj`)
+            let status1 = await quick.fetch(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`);
+            let status2 = await quick.fetch(`zawaj.${kmsg.guild.id}.${mention.id}`)
             if(!status1){
-                status1 = await quick.set(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`, { taken: false, with: `unknow`})
+                status1 = await quick.set(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`, { taken: false, with: `unknow`})
             }
             if(!status2){
-                status2 = await quick.set(`${kmsg.guild.id}.${mention.id}_zawaj`, { taken: false, with: `unknow`})
+                status2 = await quick.set(`zawaj.${kmsg.guild.id}.${mention.id}`, { taken: false, with: `unknow`})
             }
             if(status1.taken === true){
                 return kmsg.channel.send(`**لا يمكنك ان تتزوج اكثر من زوجة**`)
@@ -48,8 +48,10 @@ client.on("message", async(kmsg)=> {
                 }).then(async c=> {
                     if(c.first().content === 'نعم'){
                         kmsg.channel.send(`تم بحمد الله عقد الزواج بين <@${kmsg.author.id}> <@${mention.id}>`);
-                        await quick.set(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`, { taken: true, with: `${mention.id}`});
-                        await quick.set(`${kmsg.guild.id}.${mention.id}_zawaj`, { taken: true, with: `${kmsg.author.id}`})
+                        await quick.set(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`, { taken: true, with: `${mention.id}`});
+                        await quick.set(`zawaj.${kmsg.guild.id}.${mention.id}`, { taken: true, with: `${kmsg.author.id}`});
+                        await quick.set(`talak.${kmsg.guild.id}.${mention.id}`, { mutalak: false, id:`${mention.id}` });
+                        await quick.set(`talak.${kmsg.guild.id}.${kmsg.author.id}`, { mutalak: false, id:`${kmsg.author.id}` });
                     } else {
                         kmsg.reply(`لقد رفض الزواج منك الله يحسن اليكم `)
                     }
@@ -66,13 +68,13 @@ client.on("message", async(kmsg)=> {
             if(mentiont.id == kmsg.author.id){
                 return kmsg.channel.send(`**انت غير مرتبط بنفسك **`)
             }
-            let status_1 = await quick.get(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`);
-            let status_2 = await quick.get(`${kmsg.guild.id}.${mentiont.id}_zawaj`)
+            let status_1 = await quick.get(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`);
+            let status_2 = await quick.get(`zawaj.${kmsg.guild.id}.${mentiont.id}`)
             if(!status_1){
-                status_1 = await quick.set(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`, { taken: false, with: `unknow`})
+                status_1 = await quick.set(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`, { taken: false, with: `unknow`})
             }
             if(!status_2){
-                status_2 = await quick.set(`${kmsg.guild.id}.${mentiont.id}_zawaj`, { taken: false, with: `unknow`})
+                status_2 = await quick.set(`zawaj.${kmsg.guild.id}.${mentiont.id}`, { taken: false, with: `unknow`})
             }
             if(status_1.taken === false){
                 return kmsg.channel.send(`**انت لست متزوج منهم لا يمكنك الطلاق**`)
@@ -89,8 +91,10 @@ client.on("message", async(kmsg)=> {
                     }).then(async c=> {
                         if(c.first().content === 'نعم'){
                             kmsg.channel.send(`أن ابغض الحلال عند الله الطلاق , تم الطلاق بين `);
-                            await quick.set(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`, { taken: false, with: `unknow`})
-                            await quick.set(`${kmsg.guild.id}.${mentiont.id}_zawaj`, { taken: false, with: `unknow`})
+                            await quick.set(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`, { taken: false, with: `unknow`})
+                            await quick.set(`zawaj.${kmsg.guild.id}.${mentiont.id}`, { taken: false, with: `unknow`})
+                            await quick.set(`talak.${kmsg.guild.id}.${mentiont.id}`, { mutalak: true, id:`${mentiont.id}` })
+                            await quick.set(`talak.${kmsg.guild.id}.${kmsg.author.id}`, { mutalak: true, id:`${kmsg.author.id}` })
                         } else {
                             kmsg.reply(`**تم رفض طلبك بالطلاق **`)
                         }
@@ -103,7 +107,7 @@ client.on("message", async(kmsg)=> {
             }
             break;
         case 'بيانات':
-            let data = await quick.fetch(`${kmsg.guild.id}.${kmsg.author.id}_zawaj`);
+            let data = await quick.fetch(`zawaj.${kmsg.guild.id}.${kmsg.author.id}`);
             if(data && data.taken === true){
                 return kmsg.channel.send(new MessageEmbed({description:`<@${kmsg.author.id}> متزوج من <@${data.with}>`}))
             } else if(!data || data.taken === false){
