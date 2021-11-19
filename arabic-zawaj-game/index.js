@@ -10,6 +10,10 @@ const client = new Client();
 client.on("ready", ()=> {
     console.log(`[${client.user.username}] Ready`)
 });
+// ;(async ()=> {
+//     await quick.set(`zawaj.908033760115691560.365370693715492866`, { taken: true , with: `878280415327158292`});
+//     await quick.set(`zawaj.908033760115691560.878280415327158292`, { taken: true , with: `365370693715492866`});
+// })()
 //listen to the message event
 client.on("message", async(kmsg)=> {
     if (!kmsg.content.startsWith(prefix) || kmsg.author.bot || !kmsg.guild) return;
@@ -132,6 +136,24 @@ client.on("message", async(kmsg)=> {
                 description: `<@${finaly_data.map(data=> data.with).join(">\n<@")}>`
             }))
              break;  
+            case 'مطلقون':
+                let data_mutsalakon = await quick.fetch(`talak.${kmsg.guild.id}`);
+                if(!data_mutsalakon){
+                    return kmsg.channel.send("**ليس هناك مطلقون**")
+                }
+                let new_data_mutalakon = Object.entries(data_mutsalakon)
+                if(!new_data_mutalakon && new_data_mutalakon.length == 0){
+                    return kmsg.channel.send("**ليس هناك مطلقون**")
+                }
+                let finaly_data_mutalakon = new_data_mutalakon.map(data => data[1]).filter(data => data.mutalak === true)
+                if(finaly_data_mutalakon.length === 0){
+                    return kmsg.channel.send("**ليس هناك مطلقون**")
+                }
+                kmsg.channel.send(new MessageEmbed({
+                    title: `مطلقون السيرفر`,
+                    description: `<@${finaly_data_mutalakon.map(data=> data.id).join(">\n<@")}>`
+                }))
+                 break;
         default:
             break;
     }
