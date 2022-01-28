@@ -1,26 +1,17 @@
 {
-  "name": "kingman-custom-bots-done",
+  "name": "zajil-bot",
   "version": "1.0.0",
-  "description": "Here are the projects that people request",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kmkingman/kingman-custom-bots-done.git"
-  },
-  "keywords": [
-    "kingman-studio"
-  ],
-  "author": "muhammad rafat kurkar [+962792914245]",
+  "description": "kmcodes next level zajil bot",
+  "main": "src/index.js",
+  "repository": "https://github.com/kmkingman",
+  "author": "muhammad rafat kurkar +962792914245",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/kmkingman/kingman-custom-bots-done/issues"
-  },
-  "homepage": "https://github.com/kmkingman/kingman-custom-bots-done#readme",
+  "type": "module",
   "dependencies": {
-    "discord.js": "^12.5.0",
-    "quick.db": "^7.1.3"
+    "discord.js": "12.5.0",
+    "easy-json-database": "^1.5.0"
+  },
+  "scripts": {
+    "start": "node src/index.js"
   }
 }
